@@ -1,0 +1,139 @@
+<html>
+	<head>
+		<script src="js/Three.js"></script>
+		<script src="js/RequestAnimationFrame.js"></script>
+		<script src="js/Stats.js"></script>
+		<script src="js/Detector.js"></script>
+		<script src="js/jquery.min.js"></script>
+		<script src="js/jquery.tmpl.min.js"></script>
+		<style>
+			body {
+				background: #408040;
+				overflow:hidden;
+				padding:0;
+				margin:0;
+			}
+			#osdLayer {
+				position	: absolute;
+				top		: 0px;
+				left		: 0px;
+			}
+			#osdLayer .leftMenu {
+				background	: grey;
+			}
+		</style>
+	</head>
+<body>
+    	<div id="container"></div>
+    	<div id="osdLayer">
+		<div class="leftMenu">
+			<div class="header">
+				Initializers
+			</div>
+			
+			<div>
+				<span class="insert">insert</span>
+				<span class="remove">remove</span>
+			</div>
+			<div class="stack"></div>
+		</div>
+	</div>
+	<script id="tmplItemHead" type="text/x-jquery-tmpl">
+		<div class="itemHead">
+			<label for="type">type:</label>
+			<select name="type">
+				<option value="none">none</option>
+				<option value="LifeTime">lifetime</option>
+			</select>
+			-
+			<a class="title" href="javascript:void(0)">insert</a>
+			- 
+			<a class="title" href="javascript:void(0)">delete</a>
+		</div>
+	</script>
+	<script id="tmplInitLifeTime" type="text/x-jquery-tmpl">
+		<div>
+			<label for="min">Min</label>:
+			<input type="range" name="min" min="0" max="15">
+			<br/>
+			<label for="max">Max</label>:
+			<input type="range" name="max" min="0" max="15">
+		</div>
+	</script>
+
+	<script type="text/javascript">
+		jQuery( "#tmplItemHead" ).tmpl().appendTo( "#osdLayer .stack" );
+		jQuery( "#tmplInitLifeTime" ).tmpl().appendTo( "#osdLayer .stack" );
+		jQuery( ".itemHead select").live('change', function(){
+			console.log("change", this.value)
+		})
+		
+		var container, stats;
+		var camera, scene, renderer, mesh;
+		var mouseX = 0, mouseY = 0;
+		var windowHalfX = window.innerWidth / 2;
+		var windowHalfY = window.innerHeight / 2;
+
+		init();
+		animate();
+		function init(){
+			if( true ){
+				renderer = new THREE.WebGLRenderer({
+					antialias	: true,
+					preserveDrawingBuffer	: true
+				});				
+			}else{
+				renderer	= renderer = new THREE.CanvasRenderer();
+			}
+			renderer.setSize( window.innerWidth, window.innerHeight );
+		
+			document.getElementById('container').appendChild(renderer.domElement);
+			
+			scene = new THREE.Scene();
+
+			camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 1, 10000 );
+			camera.position.set(0, 0, 4);
+			camera.lookAt(scene.position);
+			scene.add(camera);
+	
+			document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+			document.addEventListener( 'touchmove', onDocumentTouchMove, false );
+
+			var mesh	= new THREE.Mesh( new THREE.CubeGeometry( 2, 2, 2 ), new THREE.MeshNormalMaterial() );
+			scene.add( mesh );
+		}
+		function onDocumentMouseMove(event) {
+
+			mouseX = event.clientX - windowHalfX;
+			mouseY = event.clientY - windowHalfY;
+
+		}
+		function onDocumentTouchMove( event ) {
+			if ( event.touches.length == 1 ) {
+				event.preventDefault();
+				mouseX = event.touches[ 0 ].pageX - windowHalfX;
+				mouseY = event.touches[ 0 ].pageY - windowHalfY;
+			}
+		}
+
+		function animate() {
+
+			requestAnimationFrame( animate );
+
+			render();
+			//stats.update();
+
+		}
+
+		function render() {
+
+			camera.position.x += ( +mouseX/40 - camera.position.x ) * .2;
+			camera.position.y += ( -mouseY/40 - camera.position.y ) * .2;
+			camera.lookAt( scene.position );
+
+			renderer.render( scene, camera );
+
+		}
+	</script>
+</body>
+</html>
