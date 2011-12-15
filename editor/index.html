@@ -7,12 +7,17 @@
 		<script src="js/jquery.min.js"></script>
 		<script src="js/jquery.tmpl.min.js"></script>
 		
+		<script src="js/threex.sparks.js"></script>
+
+		<script src="./vendor/sparks.js/Sparks.js"></script>
+		<script src="./vendor/sparks.js/examples/js/Tween.js"></script>
+		
 		<link rel="stylesheet" media="screen" type="text/css" href="vendor/colorpicker/css/colorpicker.css" />
 		<script src="vendor/colorpicker/js/colorpicker.js"></script>
 
 		<style>
 			body {
-				background	: #408040;
+				background	: #000000;
 				overflow	: hidden;
 				padding		: 0;
 				margin		: 0;
@@ -128,7 +133,7 @@
 		jQuery( ".itemHeader .delete").live('click', function(){
 			console.log("click delete");
 		});
-		
+		var clock = new THREE.Clock();
 		var container, stats;
 		var camera, scene, renderer, mesh;
 		var mouseX = 0, mouseY = 0;
@@ -153,15 +158,55 @@
 			scene = new THREE.Scene();
 
 			camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 1, 10000 );
-			camera.position.set(0, 0, 4);
+			camera.position.set(0, 0, 50);
 			camera.lookAt(scene.position);
 			scene.add(camera);
+			
+			controls = new THREE.TrackballControls( camera );
+			controls.rotateSpeed		= 0.1;
+			controls.staticMoving		= false;
+			controls.dynamicDampingFactor	= 0.3;
+			
 	
 			document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 			document.addEventListener( 'touchmove', onDocumentTouchMove, false );
 
 			var mesh	= new THREE.Mesh( new THREE.CubeGeometry( 2, 2, 2 ), new THREE.MeshNormalMaterial() );
 			scene.add( mesh );
+
+
+			_sparks	= new THREEx.Sparks({
+				maxParticles	: 1000,
+				counter		: new SPARKS.SteadyCounter(70)
+			});
+		
+			scene.add(_sparks.container());
+		
+			// setup the emitter
+			var emitter	= _sparks.emitter();
+		
+			var hue	= 0;
+			var initColorSize	= function() {};
+			initColorSize.prototype.initialize = function( emitter, particle ){
+				hue		+= 0.01;
+				if( hue > 1 )	hue	-= 1;
+				particle.target.color().setHSV(hue, 0.8, 0.8);
+		
+				particle.target.size(150);
+			};
+		
+		
+			emitter.addInitializer(new initColorSize());
+			emitter.addInitializer(new SPARKS.Position( new SPARKS.PointZone( new THREE.Vector3(0,0,0) ) ) );
+			emitter.addInitializer(new SPARKS.Lifetime(0,2));
+			emitter.addInitializer(new SPARKS.Velocity(new SPARKS.PointZone(new THREE.Vector3(0,150,00))));
+		
+			emitter.addAction(new SPARKS.Age());
+			emitter.addAction(new SPARKS.Move()); 
+			emitter.addAction(new SPARKS.RandomDrift(1000,0,1000));
+			emitter.addAction(new SPARKS.Accelerate(0,-100,0));
+		
+			emitter.start();
 		}
 		function onDocumentMouseMove(event) {
 
@@ -188,12 +233,17 @@
 
 		function render() {
 
-			camera.position.x += ( +mouseX/40 - camera.position.x ) * .2;
-			camera.position.y += ( -mouseY/40 - camera.position.y ) * .2;
-			camera.lookAt( scene.position );
+			//camera.position.x += ( +mouseX/40 - camera.position.x ) * .2;
+			//camera.position.y += ( -mouseY/40 - camera.position.y ) * .2;
+			//camera.lookAt( scene.position );
 
+			controls.update( clock.getDelta() );
+			
+			_sparks.update();
+
+			// FIXME this should be INSIDE webgl renderer... bug
+			renderer.context.depthMask( true );
 			renderer.render( scene, camera );
-
 		}
 	</script>
 </body>
