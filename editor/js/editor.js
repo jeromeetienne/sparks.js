@@ -10,10 +10,6 @@ var initColorPicker	= function(container){
 	// set default color
 	setColor( "FFFFFF" );
 
-	//// click anywhere on the container will trigger the picker
-	//jQuery(container).click(function(){
-	//	jQuery('input', container).ColorPickerShow();
-	//});
 	// init color picker itself
 	jQuery('input', container).ColorPicker({
 		onChange: function(hsb, hex, rgb){
