@@ -1,0 +1,24 @@
+#osdLayer {
+	position	: absolute;
+	top		: 0px;
+	left		: 0px;
+}
+#osdLayer .menu {
+	background	: grey;
+	padding		: 0.5em;
+}
+#osdLayer .menu .header {
+	text-align	: center;
+	font-size	: 130%;
+
+}
+#osdLayer ul.stack {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+#osdLayer .stack .stackItem {
+	border-top: 2px solid black;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
