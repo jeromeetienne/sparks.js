@@ -145,7 +145,7 @@
 		function init(){
 			if( true ){
 				renderer = new THREE.WebGLRenderer({
-					antialias	: true,
+					antialias		: true,
 					preserveDrawingBuffer	: true
 				});				
 			}else{
@@ -158,7 +158,7 @@
 			scene = new THREE.Scene();
 
 			camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 1, 10000 );
-			camera.position.set(0, 0, 50);
+			camera.position.set(0, 0, 100);
 			camera.lookAt(scene.position);
 			scene.add(camera);
 			
@@ -171,19 +171,20 @@
 			document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 			document.addEventListener( 'touchmove', onDocumentTouchMove, false );
 
-			var mesh	= new THREE.Mesh( new THREE.CubeGeometry( 2, 2, 2 ), new THREE.MeshNormalMaterial() );
+			var mesh	= new THREE.Mesh( new THREE.CubeGeometry( 10, 20, 10 ), new THREE.MeshNormalMaterial() );
+			mesh.position.y	= -5;
 			scene.add( mesh );
 
 
-			_sparks	= new THREEx.Sparks({
+			threexSparks	= new THREEx.Sparks({
 				maxParticles	: 1000,
 				counter		: new SPARKS.SteadyCounter(70)
 			});
 		
-			scene.add(_sparks.container());
+			scene.add(threexSparks.container());
 		
 			// setup the emitter
-			var emitter	= _sparks.emitter();
+			var emitter	= threexSparks.emitter();
 		
 			var hue	= 0;
 			var initColorSize	= function() {};
@@ -239,10 +240,11 @@
 
 			controls.update( clock.getDelta() );
 			
-			_sparks.update();
+			threexSparks.update();
 
 			// FIXME this should be INSIDE webgl renderer... bug
 			renderer.context.depthMask( true );
+
 			renderer.render( scene, camera );
 		}
 	</script>
