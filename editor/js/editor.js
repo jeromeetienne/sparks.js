@@ -53,11 +53,15 @@ jQuery( ".itemHeader select").live('change', function(){
 	var stackItemEl	= jQuery(this).parents('.stackItem');
 	var type	= this.value;
 	console.log("change type", this.value)
+	jQuery( ".itemBody", stackItemEl ).remove();		
 	if( type === 'LifeTime' ){
 		jQuery( "#tmplItemInitLifeTime" ).tmpl().appendTo( stackItemEl );
 		initColorPicker( jQuery('.colorpickerHolder', stackItemEl) );		
+	}else if( type === 'Position' ){
+		jQuery( "#tmplItemInitPosition" ).tmpl().appendTo( stackItemEl );
+	}else if( type === 'Velocity' ){
+		jQuery( "#tmplItemInitVelocity" ).tmpl().appendTo( stackItemEl );
 	}else if( type === 'none' ){
-		jQuery( ".itemBody", stackItemEl ).remove();		
 	}else{
 		console.assert(false);
 	}

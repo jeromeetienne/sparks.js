@@ -36,6 +36,8 @@
 			<select name="type">
 				<option value="none">none</option>
 				<option value="LifeTime">lifetime</option>
+				<option value="Position">position</option>
+				<option value="Velocity">velocity</option>
 			</select>
 			-
 			<a class="up" href="javascript:void(0)">&uarr;</a>
@@ -57,6 +59,30 @@
 				<input type="text" name="color" value="FFFFFF" size="6"/>
 				<span class="sample">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 			</div>
+		</div>
+	</script>
+	<script id="tmplItemInitPosition" type="text/x-jquery-tmpl">
+		<div class="itemBody">
+			<label for="x">X</label>:
+			<input name="x" value="0" type="text" size="6" />
+			<br/>
+			<label for="y">Y</label>:
+			<input name="y" value="0" type="text" size="6" />
+			<br/>
+			<label for="z">Z</label>:
+			<input name="z" value="0" type="text" size="6" />
+		</div>
+	</script>
+	<script id="tmplItemInitVelocity" type="text/x-jquery-tmpl">
+		<div class="itemBody">
+			<label for="x">X</label>:
+			<input name="x" value="0" type="text" size="6" />
+			<br/>
+			<label for="y">Y</label>:
+			<input name="y" value="0" type="text" size="6" />
+			<br/>
+			<label for="z">Z</label>:
+			<input name="z" value="0" type="text" size="6" />
 		</div>
 	</script>
 
