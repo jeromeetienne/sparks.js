@@ -20,11 +20,17 @@
 <body>
     	<div id="container"></div>
     	<div id="osdLayer">
-		<div class="leftMenu menu">
+		<div class="initMenu menu">
 			<div class="header">
 				Initializers Stack
 			</div>
-			<ul class="stack"></ul>
+			<ul class="stack initStack"></ul>
+		</div>
+		<div class="actionMenu menu">
+			<div class="header">
+				Actions Stack
+			</div>
+			<ul class="stack actionStack"></ul>
 		</div>
 	</div>
 	<script id="tmplItem" type="text/x-jquery-tmpl">
@@ -33,11 +39,18 @@
 	<script id="tmplItemHeader" type="text/x-jquery-tmpl">
 		<div class="itemHeader">
 			<label for="type">type:</label>
-			<select name="type">
+			<select name="type" class="initSelect">
 				<option value="none">none</option>
 				<option value="LifeTime">lifetime</option>
 				<option value="Position">position</option>
 				<option value="Velocity">velocity</option>
+			</select>
+			<select name="type" class="actionSelect">
+				<option value="none">none</option>
+				<option value="Accelerate">Accelerate</option>
+				<option value="Move">Move</option>
+				<option value="Age">Age</option>
+				<option value="RandomDrift">randomDrift</option>
 			</select>
 			-
 			<a class="up" href="javascript:void(0)">&uarr;</a>
@@ -63,26 +76,38 @@
 	</script>
 	<script id="tmplItemInitPosition" type="text/x-jquery-tmpl">
 		<div class="itemBody">
-			<label for="x">X</label>:
-			<input name="x" value="0" type="text" size="6" />
+			<label for="x">X</label>:	<input name="x" value="0" type="text" size="6" />
 			<br/>
-			<label for="y">Y</label>:
-			<input name="y" value="0" type="text" size="6" />
+			<label for="y">Y</label>:	<input name="y" value="0" type="text" size="6" />
 			<br/>
-			<label for="z">Z</label>:
-			<input name="z" value="0" type="text" size="6" />
+			<label for="z">Z</label>:	<input name="z" value="0" type="text" size="6" />
 		</div>
 	</script>
 	<script id="tmplItemInitVelocity" type="text/x-jquery-tmpl">
 		<div class="itemBody">
-			<label for="x">X</label>:
-			<input name="x" value="0" type="text" size="6" />
+			<label for="x">X</label>:	<input name="x" value="0" type="text" size="6" />
 			<br/>
-			<label for="y">Y</label>:
-			<input name="y" value="0" type="text" size="6" />
+			<label for="y">Y</label>:	<input name="y" value="0" type="text" size="6" />
 			<br/>
-			<label for="z">Z</label>:
-			<input name="z" value="0" type="text" size="6" />
+			<label for="z">Z</label>:	<input name="z" value="0" type="text" size="6" />
+		</div>
+	</script>
+	<script id="tmplItemActionAccelerate" type="text/x-jquery-tmpl">
+		<div class="itemBody">
+			<label for="x">X</label>:	<input name="x" value="0" type="text" size="6" />
+			<br/>
+			<label for="y">Y</label>:	<input name="y" value="0" type="text" size="6" />
+			<br/>
+			<label for="z">Z</label>:	<input name="z" value="0" type="text" size="6" />
+		</div>
+	</script>
+	<script id="tmplItemActionRandomDrift" type="text/x-jquery-tmpl">
+		<div class="itemBody">
+			<label for="x">X</label>:	<input name="x" value="0" type="text" size="6" />
+			<br/>
+			<label for="y">Y</label>:	<input name="y" value="0" type="text" size="6" />
+			<br/>
+			<label for="z">Z</label>:	<input name="z" value="0" type="text" size="6" />
 		</div>
 	</script>
 

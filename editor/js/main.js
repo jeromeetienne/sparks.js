@@ -43,8 +43,8 @@ function init(){
 
 
 	threexSparks	= new THREEx.Sparks({
-		maxParticles	: 1000,
-		counter		: new SPARKS.SteadyCounter(200)
+		maxParticles	: 100,
+		counter		: new SPARKS.SteadyCounter(70)
 	});
 
 	scene.add(threexSparks.container());
@@ -55,7 +55,7 @@ function init(){
 	var hue	= 0;
 	var initColorSize	= function() {};
 	initColorSize.prototype.initialize = function( emitter, particle ){
-		hue		+= 0.001;
+		hue		+= 0.01;
 		if( hue > 1 )	hue	-= 1;
 		particle.target.color().setHSV(hue, 0.9, 0.4);
 

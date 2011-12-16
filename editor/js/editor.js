@@ -7,8 +7,6 @@ var initColorPicker	= function(container){
 		jQuery('input', container).val(value);
 		jQuery('.sample', container).css('background-color', "#"+value);
 	}
-	// set default color
-	setColor( "FFFFFF" );
 
 	// init color picker itself
 	jQuery('input', container).ColorPicker({
@@ -27,17 +25,18 @@ var initColorPicker	= function(container){
 
 var createItem	= function(previousEl){
 	var itemEl	= jQuery( "#tmplItem" ).tmpl();
-	if( previousEl ){
-		previousEl.after( itemEl );				
-	}else{
-		itemEl.appendTo( "#osdLayer .stack" );		
-	}
-
+	previousEl.after( itemEl );				
 	jQuery( "#tmplItemHeader" ).tmpl().appendTo( itemEl );
 }
 
 jQuery(function(){
-	createItem();
+	var itemEl	= jQuery( "#tmplItem" ).tmpl();
+	itemEl.appendTo( "#osdLayer .initMenu .stack" );		
+	jQuery( "#tmplItemHeader" ).tmpl().appendTo( itemEl );
+
+	var itemEl	= jQuery( "#tmplItem" ).tmpl();
+	itemEl.appendTo( "#osdLayer .actionMenu .stack" );		
+	jQuery( "#tmplItemHeader" ).tmpl().appendTo( itemEl );
 })
 
 jQuery( ".itemBody .colorpickerHolder").live('click', function(){
@@ -47,19 +46,37 @@ jQuery( ".itemBody .colorpickerHolder").live('click', function(){
 
 jQuery( ".itemHeader select").live('change', function(){
 	var stackItemEl	= jQuery(this).parents('.stackItem');
+	var stackEl	= jQuery(this).parents('.stack');
 	var type	= this.value;
 	console.log("change type", this.value)
-	jQuery( ".itemBody", stackItemEl ).remove();		
-	if( type === 'LifeTime' ){
-		jQuery( "#tmplItemInitLifeTime" ).tmpl().appendTo( stackItemEl );
-		initColorPicker( jQuery('.colorpickerHolder', stackItemEl) );		
-	}else if( type === 'Position' ){
-		jQuery( "#tmplItemInitPosition" ).tmpl().appendTo( stackItemEl );
-	}else if( type === 'Velocity' ){
-		jQuery( "#tmplItemInitVelocity" ).tmpl().appendTo( stackItemEl );
-	}else if( type === 'none' ){
+
+
+	if( stackEl.hasClass('initStack') ){
+		jQuery( ".itemBody", stackItemEl ).remove();		
+		if( type === 'LifeTime' ){
+			jQuery( "#tmplItemInitLifeTime" ).tmpl().appendTo( stackItemEl );
+			initColorPicker( jQuery('.colorpickerHolder', stackItemEl) );		
+		}else if( type === 'Position' ){
+			jQuery( "#tmplItemInitPosition" ).tmpl().appendTo( stackItemEl );
+		}else if( type === 'Velocity' ){
+			jQuery( "#tmplItemInitVelocity" ).tmpl().appendTo( stackItemEl );
+		}else if( type === 'none' ){
+		}else{
+			console.assert(false);
+		}
+		
 	}else{
-		console.assert(false);
+		jQuery( ".itemBody", stackItemEl ).remove();		
+		if( type === 'Age' ){
+		}else if( type === 'Accelerate' ){
+			jQuery( "#tmplItemActionAccelerate" ).tmpl().appendTo( stackItemEl );
+		}else if( type === 'Move' ){
+		}else if( type === 'RandomDrift' ){
+			jQuery( "#tmplItemActionRandomDrift" ).tmpl().appendTo( stackItemEl );
+		}else if( type === 'none' ){
+		}else{
+			console.assert(false);
+		}		
 	}
 });	
 
