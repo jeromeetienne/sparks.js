@@ -23,6 +23,7 @@ function init(){
 	
 	scene = new THREE.Scene();
 
+	
 	camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 1, 10000 );
 	camera.position.set(0, 0, 100); 
 	camera.lookAt(scene.position);
@@ -32,48 +33,50 @@ function init(){
 	controls.rotateSpeed		= 0.1;
 	controls.staticMoving		= false;
 	controls.dynamicDampingFactor	= 0.3;
-	
+
+	THREEx.WindowResize(renderer, camera);
 
 	document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 	document.addEventListener( 'touchmove', onDocumentTouchMove, false );
 
-	var mesh	= new THREE.Mesh( new THREE.CubeGeometry( 10, 20, 10 ), new THREE.MeshNormalMaterial() );
-	mesh.position.y	= -5;
+	var geometry	= new THREE.CylinderGeometry( 5, 5, 20, 32 );
+	//var geometry	= new THREE.CubeGeometry( 10, 10, 10 );
+	var mesh	= new THREE.Mesh( geometry, new THREE.MeshNormalMaterial() );
+	mesh.position.y	= -10;
 	scene.add( mesh );
+
 
 
 	threexSparks	= new THREEx.Sparks({
 		maxParticles	: 400,
 		counter		: new SPARKS.SteadyCounter(300)
 	});
-
-	scene.add(threexSparks.container());
-
+	
 	// setup the emitter
 	var emitter	= threexSparks.emitter();
-
-	var hue	= 0;
-	var initColorSize	= function() {};
-	initColorSize.prototype.initialize = function( emitter, particle ){
-		hue		+= 0.001;
-		if( hue > 1 )	hue	-= 1;
-		particle.target.color().setHSV(hue, 0.9, 0.4);
-
-		particle.target.size(150);
+	
+	var initColorSize	= function(){
+		this.initialize = function( emitter, particle ){
+			particle.target.color().setHSV(0.3, 0.9, 0.4);
+			particle.target.size(150);
+		};
 	};
-
-
+	
+	
 	emitter.addInitializer(new initColorSize());
-	emitter.addInitializer(new SPARKS.Position( new SPARKS.PointZone( new THREE.Vector3(0,0,0) ) ) );
 	emitter.addInitializer(new SPARKS.Lifetime(0,0.8));
+	emitter.addInitializer(new SPARKS.Position( new SPARKS.PointZone( new THREE.Vector3(0,0,0) ) ) );
 	emitter.addInitializer(new SPARKS.Velocity(new SPARKS.PointZone(new THREE.Vector3(0,250,00))));
-
+	
 	emitter.addAction(new SPARKS.Age());
 	emitter.addAction(new SPARKS.Move()); 
 	emitter.addAction(new SPARKS.RandomDrift(1000,0,1000));
 	emitter.addAction(new SPARKS.Accelerate(0,-200,0));
 
+
 	emitter.start();
+
+	scene.add(threexSparks.container());
 }
 function onDocumentMouseMove(event) {
 
@@ -99,10 +102,6 @@ function animate() {
 }
 
 function render() {
-
-	//camera.position.x += ( +mouseX/40 - camera.position.x ) * .2;
-	//camera.position.y += ( -mouseY/40 - camera.position.y ) * .2;
-	//camera.lookAt( scene.position );
 
 	controls.update( clock.getDelta() );
 	

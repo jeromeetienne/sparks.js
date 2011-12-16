@@ -7,112 +7,42 @@
 		<script src="vendor/js/jquery.min.js"></script>
 		<script src="vendor/js/jquery.tmpl.min.js"></script>		
 		<script src="vendor/js/threex.sparks.js"></script>
+		<script src="vendor/js/threex.fullScreen.js"></script>
+		<script src="vendor/js/THREEx.WindowResize.js"></script>
 
 		<script src="./vendor/sparks.js/Sparks.js"></script>
 		<script src="./vendor/sparks.js/examples/js/Tween.js"></script>
 		
-		<link rel="stylesheet" media="screen" type="text/css" href="vendor/colorpicker/css/colorpicker.css" />
-		<script src="vendor/colorpicker/js/colorpicker.js"></script>
+		<script src="./vendor/codemirror/lib/codemirror.js"></script>
+		<link  href="./vendor/codemirror/lib/codemirror.css" rel="stylesheet">
+		<link  href="./vendor/codemirror/theme/default.css" rel="stylesheet">
+		<link  href="./vendor/codemirror/theme/cobalt.css" rel="stylesheet">
+		<link  href="./vendor/codemirror/theme/night.css" rel="stylesheet">
+		<script src="./vendor/codemirror/mode/javascript/javascript.js"></script>
 
 		<link rel="stylesheet" href="css/editor.css" />
 		<link rel="stylesheet" href="css/main.css" />
+
 	</head>
-<body>
+<body >
     	<div id="container"></div>
     	<div id="osdLayer">
-		<div class="initMenu menu">
-			<div class="header">
-				Initializers Stack
-			</div>
-			<ul class="stack initStack"></ul>
-		</div>
-		<div class="actionMenu menu">
-			<div class="header">
-				Actions Stack
-			</div>
-			<ul class="stack actionStack"></ul>
+	    	<div class="icontainer">
+		<span class="button editor">code</span>
+		<span class="button fullscreen">fullscreen</span>
+		<span class="button export">export</span>
+		<span class="shorturl" style="display: none;">
+			<input type="text" size="20" />
+		</span>
+		<div class="info">
+			<a href="http://learningthreejs.com/" target="_blank">LearningThree.js</a>
+			- Online Editor for
+			<a href="https://github.com/zz85/sparks.js/" target="_blank">Sparks.js</a>
+		</div> 	
+	    	<div id="editor"></div>
 		</div>
 	</div>
-	<script id="tmplItem" type="text/x-jquery-tmpl">
-		<li class="stackItem"></li>
-	</script>
-	<script id="tmplItemHeader" type="text/x-jquery-tmpl">
-		<div class="itemHeader">
-			<label for="type">type:</label>
-			<select name="type" class="initSelect">
-				<option value="none">none</option>
-				<option value="LifeTime">lifetime</option>
-				<option value="Position">position</option>
-				<option value="Velocity">velocity</option>
-			</select>
-			<select name="type" class="actionSelect">
-				<option value="none">none</option>
-				<option value="Accelerate">Accelerate</option>
-				<option value="Move">Move</option>
-				<option value="Age">Age</option>
-				<option value="RandomDrift">randomDrift</option>
-			</select>
-			-
-			<a class="up" href="javascript:void(0)">&uarr;</a>
-			<a class="down" href="javascript:void(0)">&darr;</a>
-			<a class="insert" href="javascript:void(0)">+</a>
-			<a class="delete" href="javascript:void(0)">x</a>
-		</div>
-	</script>
-	<script id="tmplItemInitLifeTime" type="text/x-jquery-tmpl">
-		<div class="itemBody">
-			<label for="min">Min</label>:
-			<input type="range" name="min" min="0" max="15">
-			<br/>
-			<label for="max">Max</label>:
-			<input type="range" name="max" min="0" max="15">
-			<br/>
-			<div class="colorpickerHolder">
-				<label for="color">Color</label>:
-				<input type="text" name="color" value="FFFFFF" size="6"/>
-				<span class="sample">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-			</div>
-		</div>
-	</script>
-	<script id="tmplItemInitPosition" type="text/x-jquery-tmpl">
-		<div class="itemBody">
-			<label for="x">X</label>:	<input name="x" value="0" type="text" size="6" />
-			<br/>
-			<label for="y">Y</label>:	<input name="y" value="0" type="text" size="6" />
-			<br/>
-			<label for="z">Z</label>:	<input name="z" value="0" type="text" size="6" />
-		</div>
-	</script>
-	<script id="tmplItemInitVelocity" type="text/x-jquery-tmpl">
-		<div class="itemBody">
-			<label for="x">X</label>:	<input name="x" value="0" type="text" size="6" />
-			<br/>
-			<label for="y">Y</label>:	<input name="y" value="0" type="text" size="6" />
-			<br/>
-			<label for="z">Z</label>:	<input name="z" value="0" type="text" size="6" />
-		</div>
-	</script>
-	<script id="tmplItemActionAccelerate" type="text/x-jquery-tmpl">
-		<div class="itemBody">
-			<label for="x">X</label>:	<input name="x" value="0" type="text" size="6" />
-			<br/>
-			<label for="y">Y</label>:	<input name="y" value="0" type="text" size="6" />
-			<br/>
-			<label for="z">Z</label>:	<input name="z" value="0" type="text" size="6" />
-		</div>
-	</script>
-	<script id="tmplItemActionRandomDrift" type="text/x-jquery-tmpl">
-		<div class="itemBody">
-			<label for="x">X</label>:	<input name="x" value="0" type="text" size="6" />
-			<br/>
-			<label for="y">Y</label>:	<input name="y" value="0" type="text" size="6" />
-			<br/>
-			<label for="z">Z</label>:	<input name="z" value="0" type="text" size="6" />
-		</div>
-	</script>
-
-
-	<script src="js/editor.js"></script>
 	<script src="js/main.js"></script>
+	<script src="js/editor.js"></script>
 </body>
 </html>
