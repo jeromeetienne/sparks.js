@@ -46,34 +46,32 @@ function init(){
 		maxParticles	: 400,
 		counter		: new SPARKS.SteadyCounter(300)
 	});
-
-	scene.add(threexSparks.container());
-
+	
 	// setup the emitter
 	var emitter	= threexSparks.emitter();
-
-	var hue	= 0;
-	var initColorSize	= function() {};
-	initColorSize.prototype.initialize = function( emitter, particle ){
-		hue		+= 0.001;
-		if( hue > 1 )	hue	-= 1;
-		particle.target.color().setHSV(hue, 0.9, 0.4);
-
-		particle.target.size(150);
+	
+	var initColorSize	= function(){
+		this.initialize = function( emitter, particle ){
+			particle.target.color().setHSV(0.3, 0.9, 0.4);
+			particle.target.size(150);
+		};
 	};
-
-
+	
+	
 	emitter.addInitializer(new initColorSize());
-	emitter.addInitializer(new SPARKS.Position( new SPARKS.PointZone( new THREE.Vector3(0,0,0) ) ) );
 	emitter.addInitializer(new SPARKS.Lifetime(0,0.8));
+	emitter.addInitializer(new SPARKS.Position( new SPARKS.PointZone( new THREE.Vector3(0,0,0) ) ) );
 	emitter.addInitializer(new SPARKS.Velocity(new SPARKS.PointZone(new THREE.Vector3(0,250,00))));
-
+	
 	emitter.addAction(new SPARKS.Age());
 	emitter.addAction(new SPARKS.Move()); 
 	emitter.addAction(new SPARKS.RandomDrift(1000,0,1000));
 	emitter.addAction(new SPARKS.Accelerate(0,-200,0));
 
+
 	emitter.start();
+
+	scene.add(threexSparks.container());
 }
 function onDocumentMouseMove(event) {
 
