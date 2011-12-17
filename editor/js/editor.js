@@ -148,6 +148,11 @@ jQuery("#osdLayer .button.screenshot").click(function(){
 	var win		= window.open();
 	win.document.write(winHtml);
 	jQuery('img', win.document).attr('src', url);
+	jQuery('body', win.document).css({
+		"margin"	: "0",
+		"padding"	: "0",
+		"color"		: "#C0C0C0"
+	});
 
 	// upload to imgur using jquery/CORS
 	// https://developer.mozilla.org/En/HTTP_access_control
