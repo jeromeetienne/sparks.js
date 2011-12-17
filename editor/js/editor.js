@@ -91,10 +91,21 @@ jQuery("#osdLayer .button.fullscreen").click(function(){
 	    THREEx.FullScreen.request();
 	}	
 });
+if( !THREEx.FullScreen.available() ){
+	jQuery("#osdLayer .button.fullscreen").hide();
+}
+
 
 jQuery("#osdLayer .button.export").click(function(){
-	jQuery('#osdLayer .shorturl').show();
+	var isVisible	= jQuery('#osdLayer .shorturl').css('display') !== 'none';
+	
+	if( isVisible ){
+		jQuery('#osdLayer .shorturl').hide();
+		return;
+	}
 
+	jQuery('#osdLayer .shorturl').show();
+	
 	var long_url	= location.href;
 	// from http://stackoverflow.com/questions/1771397/jquery-on-the-fly-url-shortener
 	var login	= "jeromeetienne";
@@ -113,14 +124,9 @@ jQuery("#osdLayer .button.export").click(function(){
 	);
 });
 
-jQuery('#osdLayer .shorturl input').blur(function(){
-	jQuery('#osdLayer .shorturl').hide();
-});
-
-
 jQuery('body').bind('keypress', function(event){
-console.log("event", event)
-	if( event.keyCode !== 200 )	return;
+	// alt-h == 203
+	if( event.keyCode !== 203 )	return;
 	event.preventDefault();  
 	jQuery("#editor").toggle();
 })

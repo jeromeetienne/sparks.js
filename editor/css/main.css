@@ -5,3 +5,25 @@ body {
 	margin		: 0;
 }
 
+div.info {
+	position	: absolute;
+	top		: 0.5em;
+	left		: 50%;
+	margin-left	: -10em;
+
+	color		: #f0f0f0;
+
+	text-align	: center;
+
+	font-size	: 16px;
+	font-weight	: bolder;
+}
+
+div.info a {
+	color		: #c0c0f0;
+	text-decoration	: none;
+}
+div.info a:hover {
+	text-decoration	: underline;
+}
+

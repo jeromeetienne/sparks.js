@@ -3,41 +3,26 @@
 
 	margin		: 0em;
 	padding		: 0em;
-	width		: 100%;
-	height		: 100%;
 
 	position	: absolute;
 	top		: 0px;
 	left		: 0px;
+	width		: 100%;
 }
 
 #osdLayer .icontainer {
 	position	:relative;
+	padding		: 1em;
+	padding-top	: 1.5em;
+
 }
 
-#osdLayer .info {
-	position	: absolute;
-	top		: 0px;
-	width		: 100%;
-
-	color		: #f0f0f0;
-
-	text-align	: center;
-
-	font-size	: 16px;
-	font-weight	: bolder;
+#osdLayer .right {
+	float	: right;
 }
 
-#osdLayer .info a {
-	color		: #c0c0f0;
-	text-decoration	: none;
-}
-#osdLayer .info a:hover {
-	text-decoration	: underline;
-}
-
-#osdLayer .button.fullscreen {
-	float		: right;
+#osdLayer .left {
+	float	: left;
 }
 
 #osdLayer .button {
@@ -49,9 +34,11 @@
 
 	padding		: 0.4em;
 	margin		: 0.2em;
+	margin-bottom	: 1em;
 
 	border-radius	: 5px;	
 }
+
 #osdLayer .button:hover {
 	cursor		: pointer;
 	background	: rgba(96,96,96, 0.8);
@@ -86,7 +73,6 @@
 }
 
 .CodeMirror-scroll {
-	margin		: 20px;
 	border-radius	: 15px;
 	width		: 100%;
 	height		: 100%;
