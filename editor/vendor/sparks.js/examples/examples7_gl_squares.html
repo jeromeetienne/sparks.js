@@ -286,7 +286,7 @@
 				
 				}
 
-				scene.addObject( group );
+				scene.add( group );
 
 
 				renderer = new THREE.WebGLRenderer();
@@ -313,7 +313,7 @@
 					// Find available pool
 					var target = Pool.get();
 					//values_size[target] = Math.random() * 20;
-					values_size[target] = 50;
+					values_size[target] = 50+Math.random() * 20;
 					
 					return target;
 	
@@ -330,7 +330,7 @@
 						
 						h += 0.001;
 						if (h>1) h-=1;
-						h = 0.5;
+						//h = 0.5;
 						particles.vertices[target].position = p.position;
 						
 						values_color[target].setHSV(h, 0.8, 0.1); //0.15
@@ -354,7 +354,7 @@
 				};
 				
 				
-				sparksEmitter	= new SPARKS.Emitter(new SPARKS.SteadyCounter(200));
+				sparksEmitter = new SPARKS.Emitter(new SPARKS.SteadyCounter(500));
 
 				emitterpos	= new THREE.Vector3(0,0,0);
 				var sphereCap	= new SPARKS.SphereCapZone(0, 0, 0, 10, 0, 40);
@@ -362,14 +362,14 @@
 				sparksEmitter.addInitializer(new SPARKS.Position( new SPARKS.PointZone( emitterpos ) ) );
 				sparksEmitter.addInitializer(new SPARKS.Lifetime(0,8));
 				sparksEmitter.addInitializer(new SPARKS.Target(null, setTargetParticle)); //, setTargetParticle //Pool.get()
-				//sparksEmitter.addInitializer(new SPARKS.Velocity(sphereCap));
+				sparksEmitter.addInitializer(new SPARKS.Velocity(sphereCap));
 
-				sparksEmitter.addAction(new SPARKS.Age()	);
-				//sparksEmitter.addAction(new SPARKS.Accelerate(0.2));
-				sparksEmitter.addAction(new SPARKS.Move()	); 
+				sparksEmitter.addAction(new SPARKS.Age());
+				sparksEmitter.addAction(new SPARKS.Accelerate(0.2));
+				sparksEmitter.addAction(new SPARKS.Move()); 
 				
-				sparksEmitter.addCallback("created"	, onParticleCreated	);
-				sparksEmitter.addCallback("dead"	, onParticleDead	);
+				sparksEmitter.addCallback("created", onParticleCreated);
+				sparksEmitter.addCallback("dead", onParticleDead);
 				
 
 				sparksEmitter.start();
@@ -422,10 +422,10 @@
 
 			function render() {
 				
-				group.geometry.__dirtyVertices	= true;
-				group.geometry.__dirtyColors	= true;
-				attributes.size.needsUpdate	= true;
-				attributes.ca.needsUpdate	= true;
+				group.geometry.__dirtyVertices = true;
+				group.geometry.__dirtyColors = true;
+				attributes.size.needsUpdate = true;
+				attributes.ca.needsUpdate = true;
 								
 				_rotation += 3;
 	            

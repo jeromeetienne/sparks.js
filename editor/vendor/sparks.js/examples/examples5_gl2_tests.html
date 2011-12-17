@@ -274,7 +274,7 @@
 				
 				}
 
-				scene.addObject( group );
+				scene.add( group );
 
 
 				renderer = new THREE.WebGLRenderer();
@@ -327,11 +327,6 @@
 					}; 
 					//
 					
-				};
-				
-				var onParticleInitialized = function(particle) {
-					var position = p.position;
-					p.target.position = position;	
 				};
 				
 				var onParticleDead = function(particle) {

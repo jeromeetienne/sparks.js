@@ -26,6 +26,7 @@
 			<script type="text/javascript" src="js/Tween.js"></script>
 			<script type="text/javascript" src="../Sparks.js"></script>
 		
+			<script type="text/javascript" src="CanvasShaders.js"></script>
 		<!--
 			<script type="text/javascript" src="http://mrdoob.github.com/three.js/build/Three.js"></script>
 
@@ -64,19 +65,8 @@
 
 				scene = new THREE.Scene();
 
-				var PI2 = Math.PI * 2;
-				var program = function ( context ) {
-					context.beginPath();
-					context.arc( 0, 0, 1, 0, PI2, true );
-					context.closePath();
-					context.fill();
-					
-				};
-				
-				
-
 				group = new THREE.Object3D();
-				scene.addObject( group );
+				scene.add( group );
 
 
 				renderer = new THREE.CanvasRenderer();
@@ -120,7 +110,7 @@
 				
 				var callback = function() {
 
-					var material = new THREE.ParticleCanvasMaterial( {  program: program, blending:THREE.AdditiveBlending } );
+					var material = new THREE.ParticleCanvasMaterial( {  program: SPARKS.CanvasShadersUtils.circles , blending:THREE.AdditiveBlending } );
 					
 					material.color.setHSV(h, 1, 0.5); //0.7
 					h += 0.001;
@@ -129,14 +119,14 @@
 					particle = new THREE.Particle( material );
 
 					particle.scale.x = particle.scale.y = Math.random() * 2 +1;
-					group.addChild( particle );	
+					group.add( particle );	
 
 					return particle;
 				};
 				
 				var setTargetParticle2 = function() {
 
-					var material = new THREE.ParticleCanvasMaterial( {  program: program, blending:THREE.AdditiveBlending } );
+					var material = new THREE.ParticleCanvasMaterial( {  program: SPARKS.CanvasShadersUtils.circles , blending:THREE.AdditiveBlending } );
 					
 					material.color.setHSV(k, 1, 0.5); //0.7
 					k += 0.001;
@@ -145,7 +135,7 @@
 					particle = new THREE.Particle( material );
 
 					particle.scale.x = particle.scale.y = Math.random() * 2 +1;
-					group.addChild( particle );	
+					group.add( particle );	
 
 					return particle;
 				};
@@ -155,14 +145,9 @@
 					p.target.position = position;	
 				};
 				
-				var onParticleInitialized = function(particle) {
-					var position = p.position;
-					p.target.position = position;	
-				};
-				
 				var onParticleDead = function(particle) {
 					particle.target.visible = false; // is this a work around?
-					group.removeChild(particle.target); 
+					group.remove(particle.target); 
 				};
 				
 				
@@ -181,7 +166,6 @@
 				sparksEmitter.addAction(new SPARKS.Move()); 
 				
 				sparksEmitter.addCallback("created", onParticleCreated);
-				sparksEmitter.addCallback("initialized", onParticleInitialized);
 				sparksEmitter.addCallback("dead", onParticleDead);
 				
 				sparksEmitter2 = new SPARKS.Emitter(new SPARKS.SteadyCounter(150));
@@ -198,7 +182,6 @@
 				sparksEmitter2.addAction(new SPARKS.Move()); 
 				
 				sparksEmitter2.addCallback("created", onParticleCreated);
-				sparksEmitter2.addCallback("initialized", onParticleInitialized);
 				sparksEmitter2.addCallback("dead", onParticleDead);
 				
 				/*
