@@ -13,7 +13,8 @@ function init(){
 		renderer = new THREE.WebGLRenderer({
 			antialias		: true,
 			preserveDrawingBuffer	: true
-		});				
+		});
+		renderer.setClearColor( 0x000000, 1 );
 	}else{
 		renderer	= renderer = new THREE.CanvasRenderer();
 	}

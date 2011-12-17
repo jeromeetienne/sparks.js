@@ -65,7 +65,6 @@ var optionsSave	= function(){
 	location.hash	= '#j/'+JSON.stringify(options);	
 }
 var optionsLoad	= function(){
-	console.log("hash=", location.hash)
 	if( !location.hash )	return;
 	if( location.hash.substring(0,3) === "#j/" ){
 		var optionsJSON	= location.hash.substring(3);
@@ -83,17 +82,6 @@ jQuery("#editor").hide();
 jQuery("#osdLayer .button.editor").click(function(){	
 	jQuery("#editor").toggle();
 });
-
-jQuery("#osdLayer .button.fullscreen").click(function(){
-	if( THREEx.FullScreen.activated() ){
-	    THREEx.FullScreen.cancel();
-	}else{
-	    THREEx.FullScreen.request();
-	}	
-});
-if( !THREEx.FullScreen.available() ){
-	jQuery("#osdLayer .button.fullscreen").hide();
-}
 
 
 jQuery("#osdLayer .button.export").click(function(){
@@ -124,9 +112,65 @@ jQuery("#osdLayer .button.export").click(function(){
 	);
 });
 
-jQuery('body').bind('keypress', function(event){
-	// alt-h == 203
-	if( event.keyCode !== 203 )	return;
+//jQuery("#osdLayer .button.editor").click(function(){	
+
+jQuery(document).bind('keypress', function(event){
+	console.log("keypress", event.keyCode)
+	// alt-h == 204
+	if( event.keyCode !== 204 )	return;
 	event.preventDefault();  
 	jQuery("#editor").toggle();
 })
+
+// handle fullscreen
+jQuery("#osdLayer .button.fullscreen").click(function(){
+	if( THREEx.FullScreen.activated() ){
+	    THREEx.FullScreen.cancel();
+	}else{
+	    THREEx.FullScreen.request();
+	}	
+});
+if( !THREEx.FullScreen.available() )	jQuery("#osdLayer .button.fullscreen").hide();
+
+// handle screenshot
+jQuery("#osdLayer .button.screenshot").click(function(){
+	// From http://29a.ch/2011/9/11/uploading-from-html5-canvas-to-imgur-data-uri
+	// able to upload your screenshot without running servers
+
+	var canvas	= renderer.domElement;
+	try {
+		var url = canvas.toDataURL('image/jpeg', 0.7);
+	} catch(e) {
+		var url = canvas.toDataURL();
+	}
+
+	var winHtml	= jQuery('#osdLayer .screenshotWindow').html();
+	var win		= window.open();
+	win.document.write(winHtml);
+	jQuery('img', win.document).attr('src', url);
+
+	// upload to imgur using jquery/CORS
+	// https://developer.mozilla.org/En/HTTP_access_control
+	jQuery.ajax({
+		url	: 'http://api.imgur.com/2/upload.json',
+		type	: 'POST',
+		data	: {
+			type	: 'base64',
+			// get your key here, quick and fast http://imgur.com/register/api_anon
+			key	: 'a25f210e5e6f682fb052d63b19987a56',
+			name	: 'marblesoccer-screenshot.jpg',
+			title	: 'Particle edited by http://jeromeetienne.github.com/sparks.js/editor/',
+			caption	: 'Screenshot of sparks.js effect',
+			image	: url.split(',')[1]
+		},
+		dataType	: 'json'
+	}).success(function(data) {
+		console.log("result data", data)
+		win.location.href = data['upload']['links']['imgur_page'];
+	}).error(function() {
+		alert('Could not reach api.imgur.com. Sorry :(');
+		win.close();
+	});
+});
+
+

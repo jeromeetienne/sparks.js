@@ -24,11 +24,12 @@
 		<link rel="stylesheet" href="css/main.css" />
 
 	</head>
-<body >
+<body>
     	<div id="container"></div> 
     	<div id="osdLayer">
 	    	<div class="icontainer">
 			<span class="button fullscreen right">fullscreen</span>
+			<span class="button screenshot right">screenshot</span>
 			<span class="button editor left">code</span>
 			<span class="button export left">export</span>
 			<span class="shorturl left" style="display: none;">
@@ -36,6 +37,18 @@
 			</span>
 			<div id="editor"></div>
 		</div>
+			<!-- screenshotWindow -->
+			<div class="screenshotWindow" style="display:none;">
+				<div style="width: 100%; height: 100%; cursor: wait; font-family: arial;">
+					<center>
+						<h1>Uploading your
+						<a href="https://github.com/zz85/sparks.js" target="_blank">Sparks.js</a>
+						effect screenshot to imgur</h1>
+						<h2>Please Wait ...</h2>
+						<img src='' width="100%"></img>
+					</center>
+				</div>
+			</div>
 	</div>
 	<div class="info">
 		<a href="http://learningthreejs.com/" target="_blank">LearningThree.js</a>
